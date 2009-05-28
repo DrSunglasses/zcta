@@ -1,0 +1,16 @@
+
+# ignore build temporaries
+*.o
+*.a
+*.d
+
+#and the build result
+zcta.exe
+
+#ignore the data, which should not change and would take up a lot of space in diffs
+data/
+
+#ignore NetBeans stuff
+.dep.inc
+zcta-Makefile.mk
+nbproject/
