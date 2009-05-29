@@ -9,23 +9,19 @@
 #define	_RATIONAL_H
 
 #include "Bigint.hpp"
-#include <boost/rational.hpp>
 #include <boost/functional/hash_fwd.hpp>
 
-typedef boost::rational<Bigint> Rational;
+typedef mpq_class Rational;
 
-namespace boost {
-	template<>
-	inline double rational_cast<double, Bigint>(const Rational& rat) {
-		return rat.numerator().toDouble()/rat.denominator().toDouble();
-	}
-	template<typename T>
-	std::size_t hash_value(const boost::rational<T>& r) {
-		std::size_t seed = 0;
-		boost::hash_combine(seed, r.numerator());
-		boost::hash_combine(seed, r.denominator());
-		return seed;
-	}
+inline std::size_t hash_value(const Rational& r) {
+	std::size_t seed = 0;
+	boost::hash_combine(seed, r.get_num());
+	boost::hash_combine(seed, r.get_den());
+	return seed;
+}
+
+inline double rational_cast(const Rational& r) {
+	return r.get_d();
 }
 
 #if 0

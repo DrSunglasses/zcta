@@ -29,10 +29,10 @@ public:
 		B = dx/C;
 	}
 	bool vertical() const {
-		return !B;
+		return B == 0;
 	}
 	bool horizontal() const {
-		return !A;
+		return A == 0;
 	}
 //	const reptype slope() const {
 //		//TODO: possible candidate for caching or eagerly initializing
@@ -42,10 +42,12 @@ public:
 		reptype bottom = A*other.B - other.A*B;
 		reptype topX = B - other.B;
 		reptype topY = A - other.A;
-		if ((!topX||!topY) && !bottom)
-			throw std::logic_error("coincident lines");
-		if (!bottom)
-			throw std::logic_error("parallel lines");
+		if (bottom == 0) {
+			if ((topX == 0 || topY == 0))
+				throw std::logic_error("coincident lines");
+			else
+				throw std::logic_error("parallel lines");
+		}
 		return T(topX/bottom, topY/bottom);
 	}
 	bool parallelTo(const basic_line& other) const {
@@ -53,16 +55,16 @@ public:
 	}
 	double distanceTo(const point& pt) const {
 		if (!bottomSquared)
-			bottomSquared = sqrt(boost::rational_cast<double>(A*A + B*B));
+			bottomSquared = sqrt(rational_cast(A*A + B*B));
 		reptype top = abs(A*pt.x() + B*pt.y() + 1);
-		return boost::rational_cast<double>(top)/(*bottomSquared);
+		return rational_cast(top)/(*bottomSquared);
 	}
 	double theta() const {
 		if (theta_)
 			return *theta_;
 		if (vertical())
 			return 3.14159265358979323846/2;
-		double rhs = boost::rational_cast<double>(A/B);
+		double rhs = rational_cast(A/B);
 		double theta = std::atan(rhs);
 		if (theta < 0)
 			theta += 3.14159265358979323846; //normalize to [0, pi]

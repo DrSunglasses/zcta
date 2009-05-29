@@ -45,7 +45,7 @@ public:
 		reptype dx = x() - pt.x();
 		reptype dy = y() - pt.y();
 		reptype dSq = dx*dx + dy*dy;
-		return sqrt(boost::rational_cast<double>(dSq));
+		return sqrt(rational_cast(dSq));
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const basic_point<T>& pt) {
