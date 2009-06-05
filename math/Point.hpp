@@ -9,68 +9,43 @@
 #define	_POINT_HPP
 
 #include "Rational.hpp"
-#include "boost/operators.hpp"
 #include <utility>
+#include <boost/operators.hpp>
+#include <boost/functional/hash_fwd.hpp>
 
-template<typename T>
-class basic_point : boost::totally_ordered< basic_point<T> > {
+class Point : boost::totally_ordered<Point> {
 private:
-	T x_, y_;
+	Rational x_, y_;
 public:
-	typedef T reptype;
+	typedef Rational reptype;
 
-	basic_point(const T& x = T(), const T& y = T()) : x_(x), y_(y) {}
+	Point(const Rational& x = Rational(), const Rational& y = Rational()) : x_(x), y_(y) {
+		x_.canonicalize();
+		y_.canonicalize();
+	}
 	//allow natural conversions for e.g. basic_point(1, 2)
 	template<typename A, typename B>
-	basic_point(const A& x, const B& y) : x_(reptype(x)), y_(reptype(y)) {}
-	//default copy ctor is fine too
-#ifdef MOVE
-	basic_point(T&& x, T&& y) : x_(std::move(x)), y_(std::move(y)) {}
-
-	//default copy assignment is fine
-	basic_point& operator=(basic_point&& pt) {
-		x_ = std::move(pt.x_);
-		y_ = std::move(pt.y_);
-		return *this;
+	Point(const A& x, const B& y) : x_(x), y_(y) {
+		x_.canonicalize();
+		y_.canonicalize();
 	}
-#endif
 
-	const reptype& x() const {
+	const Rational& x() const {
 		return x_;
 	}
-	const reptype& y() const {
+	const Rational& y() const {
 		return y_;
 	}
-	double distanceTo(const basic_point& pt) const {
-		reptype dx = x() - pt.x();
-		reptype dy = y() - pt.y();
-		reptype dSq = dx*dx + dy*dy;
-		return sqrt(rational_cast(dSq));
-	}
-
-	friend std::ostream& operator<<(std::ostream& out, const basic_point<T>& pt) {
-		return out << "[" << pt.x_ << ", " << pt.y_ << "]";
-	}
+	double distanceTo(const Point& pt) const;
 };
 
-template<typename T>
-bool operator==(const basic_point<T>& a, const basic_point<T>& b) {
-	return a.x() == b.x() && a.y() == b.y();
-}
-template<typename T>
-bool operator<(const basic_point<T>& a, const basic_point<T>& b) {
-	return a.x() < b.x() && a.y() < b.y();
-}
+std::ostream& operator<<(std::ostream& out, const Point& pt);
 
-template<typename T>
-std::size_t hash_value(const basic_point<T>& pt) {
-	size_t seed = 0;
-	boost::hash_combine(seed, pt.x());
-	boost::hash_combine(seed, pt.y());
-	return seed;
-}
+bool operator==(const Point& a, const Point& b);
 
-typedef basic_point<Rational> Point;
+bool operator<(const Point& a, const Point& b);
+
+std::size_t hash_value(const Point& pt);
 
 #endif	/* _POINT_HPP */
 
