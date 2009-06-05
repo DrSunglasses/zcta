@@ -1,5 +1,5 @@
 #include "Rational.hpp"
-#include <boost/functional/hash_fwd.hpp>
+#include <boost/functional/hash.hpp>
 
 std::size_t hash_value(const Rational& r) {
 	std::size_t seed = 0;
