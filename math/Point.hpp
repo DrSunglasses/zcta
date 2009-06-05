@@ -20,14 +20,10 @@ public:
 	typedef Rational reptype;
 
 	Point(const Rational& x = Rational(), const Rational& y = Rational()) : x_(x), y_(y) {
-		x_.canonicalize();
-		y_.canonicalize();
 	}
 	//allow natural conversions for e.g. basic_point(1, 2)
 	template<typename A, typename B>
 	Point(const A& x, const B& y) : x_(x), y_(y) {
-		x_.canonicalize();
-		y_.canonicalize();
 	}
 
 	const Rational& x() const {

@@ -54,7 +54,10 @@ Point pointFromString(const std::string& foo) {
 	x *= (POINT_X_SIGN * powersOfTen[xExp]);
 	Bigint y(boost::lexical_cast<Bigint>(results[POINT_Y]));
 	y *= (POINT_Y_SIGN * powersOfTen[yExp]);
-	return Point(x, y);
+	Rational rx(x), ry(y);
+	rx.canonicalize();
+	ry.canonicalize();
+	return Point(rx, ry);
 }
 void collectSegments(std::istream* input, std::vector<LineSegment>* retval) {
 	std::string foo;
