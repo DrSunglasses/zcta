@@ -11,85 +11,35 @@
 #include "Rational.hpp"
 #include "Point.hpp"
 #include <cmath>
-#include <boost/optional.hpp>
+#include <iosfwd>
 
-template<typename T>
-class basic_line {
-public:
-	typedef typename T::reptype reptype;
-	typedef T point;
+class Line {
 private:
-	reptype A, B; //Ax + By = 1
-	mutable boost::optional<double> theta_, bottomSquared;
+	Rational A, B; //Ax + By = 1
+	mutable double theta_, bottomSquared;
 public:
-	basic_line(const point& a, const point& b) { //TODO: convert to initializer-list?
-		reptype dx = a.x() - b.x(), dy = a.y() - b.y();
-		reptype C = -a.x()*dy + a.y()*dx;
-		A = dy/C;
-		B = dx/C;
-	}
-	bool vertical() const {
-		return B == 0;
-	}
-	bool horizontal() const {
-		return A == 0;
-	}
-//	const reptype slope() const {
+	//TODO: remove these once LineSegment doesn't need them
+	typedef Point point;
+	typedef Rational reptype;
+	
+	Line(const Point& a, const Point& b);
+	bool vertical() const;
+	bool horizontal() const;
+//	const Rational slope() const {
 //		//TODO: possible candidate for caching or eagerly initializing
 //		return A/B;
 //	}
-	point intersectionWith(const basic_line& other) const {
-		reptype bottom = A*other.B - other.A*B;
-		reptype topX = B - other.B;
-		reptype topY = A - other.A;
-		if (bottom == 0) {
-			if ((topX == 0 || topY == 0))
-				throw std::logic_error("coincident lines");
-			else
-				throw std::logic_error("parallel lines");
-		}
-		return T(topX/bottom, topY/bottom);
-	}
-	bool parallelTo(const basic_line& other) const {
-		return theta() == other.theta();
-	}
-	double distanceTo(const point& pt) const {
-		if (!bottomSquared)
-			bottomSquared = sqrt(rational_cast(A*A + B*B));
-		reptype top = abs(A*pt.x() + B*pt.y() + 1);
-		return rational_cast(top)/(*bottomSquared);
-	}
-	double theta() const {
-		if (theta_)
-			return *theta_;
-		if (vertical())
-			return 3.14159265358979323846/2;
-		double rhs = rational_cast(A/B);
-		double theta = std::atan(rhs);
-		if (theta < 0)
-			theta += 3.14159265358979323846; //normalize to [0, pi]
-		theta_ = theta;
-		return theta;
-	}
-	bool operator==(const basic_line& other) const {
-		return A == other.A && B == other.B;
-	}
-	bool operator!=(const basic_line& other) const {
-		return !(*this == other);
-	}
+	Point intersectionWith(const Line& other) const;
+	bool parallelTo(const Line& other) const;
+	double distanceTo(const Point& pt) const;
+	double theta() const;
 
-	friend std::ostream& operator<<(std::ostream& out, const basic_line<T>& pt) {
-		return out << "[" << pt.A << ", " << pt.B << "]";
-	}
-	friend std::size_t hash_value(const basic_line<T>& pt) {
-		std::size_t seed = 0;
-		boost::hash_combine(seed, pt.A);
-		boost::hash_combine(seed, pt.B);
-		return seed;
-	}
+	friend bool operator==(const Line& l, const Line& r);
+	friend std::ostream& operator<<(std::ostream& out, const Line& pt);
+	friend std::size_t hash_value(const Line& pt);
 };
 
-typedef basic_line<Point> Line;
+bool operator!=(const Line& l, const Line& r);
 
 #endif	/* _LINE_HPP */
 
