@@ -14,29 +14,17 @@
 class ZCTASegment : public LineSegment {
 	ZCTA zcta_;
 public:
-	ZCTASegment(const LineSegment& seg, const ZCTA& z) : LineSegment(seg.a(), seg.b()), zcta_(z) {
-	}
+	ZCTASegment(const LineSegment& seg, const ZCTA& z);
 	const ZCTA& zcta() const {
 		return zcta_;
 	}
-	bool operator==(const ZCTASegment& a) const {
-		return LineSegment::operator==(a) && zcta() == a.zcta();
-	}
-	bool operator!=(const ZCTASegment& a) const {
-		return !(*this == a);
-	}
-	bool operator<(const ZCTASegment& a) const {
-		return LineSegment::operator<(a);
-	}
 };
 
-inline std::size_t hash_value(const ZCTASegment& z) {
-	std::size_t seed = 0;
-	boost::hash<LineSegment> hasher;
-	boost::hash_combine(seed, hasher(z));
-	boost::hash_combine(seed, z.zcta());
-	return seed;
-}
+bool operator==(const ZCTASegment& l, const ZCTASegment& r);
+bool operator!=(const ZCTASegment& l, const ZCTASegment& r);
+bool operator<(const ZCTASegment& l, const ZCTASegment& r);
+
+std::size_t hash_value(const ZCTASegment& z);
 
 #endif	/* _ZCTASEGMENT_HPP */
 

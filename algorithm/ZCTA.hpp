@@ -11,6 +11,7 @@
 #include <string>
 #include <utility>
 #include "../math/Point.hpp"
+#include <boost/functional/hash.hpp>
 
 class ZCTA {
 private:
@@ -54,7 +55,7 @@ public:
 };
 
 inline std::size_t hash_value(const ZCTA& z) {
-	return boost::hash_value(z.id());
+	return boost::hash<std::string>()(z.id());
 }
 
 #endif	/* _ZCTA_HPP */
