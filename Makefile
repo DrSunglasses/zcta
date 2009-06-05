@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -O2 -gdwarf-2 -g -std=c++0x 
-LDFLAGS = -lboost_regex-gcc43-mt -lgmp -lgmpxx -gdwarf-2 -g
+CXXFLAGS = -O2 -ggdb -std=c++0x 
+LDFLAGS = -lboost_regex-gcc43-mt -lgmp -lgmpxx -ggdb
 
 SOURCES := $(wildcard *.cpp algorithm/*.cpp io/*.cpp math/*.cpp memory/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
