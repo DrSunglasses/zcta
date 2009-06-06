@@ -22,18 +22,6 @@ public:
 		if (id.length() != 5)
 			throw std::logic_error("Bad ZCTA id: "+id);
 	}
-#ifdef MOVE
-	ZCTA(std::string&& id, Point&& interiorPoint) : id_(std::move(id)), interiorPoint_(std::move(interiorPoint_)) {
-	}
-	ZCTA(ZCTA&& z) : id_(std::move(z.id_)), interiorPoint_(std::move(z.interiorPoint_)) {
-	}
-
-	ZCTA& operator=(ZCTA&& z) {
-		id_ = std::move(z.id_);
-		interiorPoint_ = std::move(z.interiorPoint_);
-		return *this;
-	}
-#endif
 
 	const std::string& id() const {
 		return id_;
