@@ -15,5 +15,7 @@ typedef mpz_class Bigint;
 
 std::size_t hash_value(const Bigint& f);
 
+Bigint pow(const Bigint& base, unsigned int exp);
+
 #endif	/* BIGINT_HPP */
 

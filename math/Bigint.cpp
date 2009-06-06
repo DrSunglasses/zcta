@@ -10,3 +10,9 @@ std::size_t hash_value(const Bigint& f) {
 	return seed;
 }
 
+Bigint pow(const Bigint& base, unsigned int exp) {
+	Bigint copy;
+	mpz_srcptr foo = base.get_mpz_t();
+	mpz_pow_ui(copy.get_mpz_t(), foo, exp);
+	return copy;
+}
