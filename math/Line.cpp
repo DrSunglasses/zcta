@@ -8,14 +8,13 @@ Line::Line(const Point& a, const Point& b) { //TODO: convert to initializer-list
 	A = dy / C;
 	B = dx / C;
 	if (vertical())
-		theta_ = 3.14159265358979323846 / 2;
+		theta_ = pi() / 2;
 	else {
-		double rhs = rational_cast(-A / B);
-		double theta_ = std::atan2(rational_cast(-A), rational_cast(B)); //returns in [-pi/2, pi/2]
+		theta_ = atan(dy/dx); //returns in [0, 2*pi)
 		if (theta_ < 0)
-			theta_ += 3.14159265358979323846; //normalize to [0, pi)
-		if (theta_ >= 3.14159265358979323846)
-			theta_ -= 3.14159265358979323846;
+			theta_ += pi(); //normalize to [0, pi)
+		if (theta_ >= pi())
+			theta_ -= pi();
 	}
 	bottomSquared = sqrt(rational_cast(A * A + B * B));
 }
@@ -52,7 +51,7 @@ double Line::distanceTo(const Point& pt) const {
 	return rational_cast(top) / (bottomSquared);
 }
 
-double Line::theta() const {
+Rational Line::theta() const {
 	return theta_;
 }
 

@@ -16,7 +16,8 @@
 class Line {
 private:
 	Rational A, B; //Ax + By = 1
-	mutable double theta_, bottomSquared;
+	Rational theta_;
+	double bottomSquared;
 public:
 	//TODO: remove these once LineSegment doesn't need them
 	typedef Point point;
@@ -32,7 +33,7 @@ public:
 	Point intersectionWith(const Line& other) const;
 	bool parallelTo(const Line& other) const;
 	double distanceTo(const Point& pt) const;
-	double theta() const;
+	Rational theta() const;
 
 	friend bool operator==(const Line& l, const Line& r);
 	friend std::ostream& operator<<(std::ostream& out, const Line& pt);
