@@ -36,20 +36,19 @@ namespace {
 		Bigint& numerator = numerator_ref(frac);
 		Bigint& denominator = denominator_ref(frac);
 		int power = 1;
-		Rational accumulator(r);
+		Rational accumulator;
 		for (int i = 0; i < POWER_SERIES_ITERATIONS; i++) {
 			accumulator += frac*(pow(r, power));
 			numerator = -numerator;
 			denominator += 2;
 			power += 2;
-			std::cout << numerator << " " <<denominator << " " <<power << std::endl;
 		}
 		return accumulator;
 	}
 }
 
 const Rational& pi() {
-	const static Rational PI = 4*4*atan_power_series(Rational(1, 5)) - 4*atan_power_series(Rational(1, 239));
+	const static Rational PI = 4*(4*atan_power_series(Rational(1, 5)) - atan_power_series(Rational(1, 239)));
 	return PI;
 }
 
