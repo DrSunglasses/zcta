@@ -30,7 +30,7 @@ const Bigint& denominator_ref(const Rational& r) {
 }
 
 namespace {
-	const int POWER_SERIES_ITERATIONS = 50;
+	const int POWER_SERIES_ITERATIONS = 15;
 	Rational atan_power_series(const Rational& r) {
 		Rational frac(1, 1);
 		Bigint& numerator = numerator_ref(frac);
