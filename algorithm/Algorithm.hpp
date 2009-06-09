@@ -54,12 +54,14 @@ class Algorithm {
 			return false;
 		}
 	};
+
 	template<class Comparator, class T>
 	struct ReversingComparator {
 		bool operator()(T a, T b) {
 			return Comparator()(a, b) ? false : true;
 		}
 	};
+
 	//instance data
 	AdjacencySet* adjacencies;
 	double adjacencyTolerance;
@@ -133,6 +135,7 @@ private:
 				compare(pos, pos.next());
 		}
 	}
+
 	void remove(Event<LineComparator>* parameter) {
 		DeleteEvent<LineComparator>* evt = throwing_dynamic_cast<DeleteEvent<LineComparator> >(parameter);
 		const Position& pos = evt->position();
@@ -150,6 +153,7 @@ private:
 				compare(prev, next);
 		}
 	}
+
 	void swap(Event<LineComparator>* parameter) {
 		SwapEvent<LineComparator>* evt = throwing_dynamic_cast<SwapEvent<LineComparator> >(parameter);
 		if (!evt->posA().valid() || !evt->posB().valid())
@@ -174,6 +178,7 @@ private:
 			compare(a, bNeighbor);
 		processedEvents.insert(*evt);
 	}
+
 	void compare(Position left, Position right) {
 		if (left.next() != right)
 			throw std::logic_error("Comparing non-adjacent iterators");
@@ -187,12 +192,13 @@ private:
 				if (lz != rz && !adjacencies->areAdjacent(lz, rz) && li->distanceTo(*ri) < adjacencyTolerance)
 					adjacencies->addAdjacency(lz, rz);
 			}
-		if (left->parallelTo(*right))
-			return;
-		Point pt = left->intersectionWith(*right);
-		if (lineCmp->pointInFuture(pt))
-			eventQueue.push(new SwapEvent<LineComparator>(*left, *right, left, right, pt));
+		if (!left->parallelTo(*right)) {
+			Point pt = left->intersectionWith(*right);
+			if (lineCmp->pointInFuture(pt))
+				eventQueue.push(new SwapEvent<LineComparator>(*left, *right, left, right, pt));
+		}
 	}
+
 	const Point& startPoint(const LineSegment& seg) {
 		int res = PointComparator()(seg.a(), seg.b());
 		if (res < 0)
@@ -201,6 +207,7 @@ private:
 			return seg.b();
 		throw std::logic_error("Segment without start point");
 	}
+
 	const Point& endPoint(const LineSegment& seg) {
 		int res = PointComparator()(seg.a(), seg.b());
 		if (res > 0)
