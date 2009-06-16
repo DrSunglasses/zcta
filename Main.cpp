@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 		std::cout << "Computed with vertical sweep line in " << t1.elapsed() << ": " << vadj.size() << " adjacencies" << std::endl;
 		
 		t1.restart();
-		vadj.addAll(hadj);
+		vadj.merge(hadj);
 		std::cout << "Merged adjacency sets in " << t1.elapsed() << std::endl;
 
 		std::cout << "Total adjacencies: " << vadj.size() << std::endl;

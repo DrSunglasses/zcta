@@ -39,9 +39,10 @@ public:
 		}
 		return false;
 	}
-	void addAll(const AdjacencySet& s) {
+	void merge(const AdjacencySet& s) {
 		for (iterator i = s.begin(); i != s.end(); ++i)
-			addAdjacency(i->first, i->second);
+			if (!areAdjacent(i->first, i->second))
+				addAdjacency(i->first, i->second);
 	}
 	iterator begin() const {
 		return map.begin();
