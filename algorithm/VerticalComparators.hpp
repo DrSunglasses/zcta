@@ -7,6 +7,9 @@
 #include "../math/LineSegment.hpp"
 #include "Algorithm.hpp"
 
+void testVerticalPointComparator();
+void testVerticalLineComparator();
+
 struct VerticalPointComparator {
 	int operator()(const Point& a, const Point& b) {
 		const Rational &ax = a.x(), &bx = b.x();
