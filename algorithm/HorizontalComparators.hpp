@@ -49,9 +49,12 @@ struct HorizontalLineComparator {
 		int res = HorizontalPointComparator()(apt, bpt);
 		if (res != 0)
 			return res;
-		if (a.theta() > b.theta())
+		Rational aTheta = a.theta(), bTheta = b.theta();
+		clamp(&aTheta, 0, pi(), pi());
+		clamp(&bTheta, 0, pi(), pi());
+		if (aTheta > bTheta)
 			return -1;
-		if (a.theta() < b.theta())
+		if (aTheta < bTheta)
 			return 1;
 		throw std::logic_error("Unequal but coincident?");
 	}
@@ -68,6 +71,12 @@ struct HorizontalLineComparator {
 private:
 	Point::reptype yVal;
 	Line line;
+	void clamp(Rational* x, const Rational& lowerBound, const Rational& upperBound, const Rational& increment) {
+		while (*x < lowerBound)
+			*x += increment;
+		while (*x >= upperBound)
+			*x -= increment;
+	}
 };
 
 typedef Algorithm<HorizontalPointComparator, HorizontalLineComparator> HorizontalAlgorithm;
