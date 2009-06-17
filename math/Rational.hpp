@@ -22,6 +22,7 @@ Bigint& denominator_ref(Rational& r);
 const Bigint& denominator_ref(const Rational& r);
 
 Rational atan(const Rational& x);
+Rational atan2(const Rational& y, const Rational& x);
 Rational pow(const Rational& base, unsigned int exp);
 const Rational& pi();
 

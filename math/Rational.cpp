@@ -1,5 +1,6 @@
 #include "Rational.hpp"
 #include <boost/functional/hash.hpp>
+#include <stdexcept>
 #include <iostream>
 
 std::size_t hash_value(const Rational& r) {
@@ -60,6 +61,19 @@ Rational atan(const Rational& x) {
 		return pi()/4;
 	//atan(x) = pi/2 - atan(1/x)
 	return pi()/2 - atan(1/x);
+}
+
+Rational atan2(const Rational& y, const Rational& x) {
+	if (x == 0 && y == 0)
+		throw std::logic_error("atan2 undefined at 0, 0");
+	if (y == 0)
+		return (x > 0) ? 0 : pi();
+	if (x == 0)
+		return sgn(y)*pi()/2;
+	Rational frac = abs(y/x);
+	if (x > 0)
+		return sgn(y)*atan(frac);
+	return sgn(y)*(pi() - atan(frac));
 }
 
 Rational pow(const Rational& base, unsigned int exp) {
