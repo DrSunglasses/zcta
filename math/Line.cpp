@@ -35,7 +35,16 @@ Point Line::intersectionWith(const Line& other) const {
 }
 
 bool Line::parallelTo(const Line& other) const {
-	return theta() == other.theta();
+	Rational us = theta(), them = other.theta();
+	while (us < 0)
+		us += pi();
+	while (us >= pi())
+		us -= pi();
+	while (them < 0)
+		them += pi();
+	while (them >= pi())
+		them -= pi();
+	return us == them;
 }
 
 double Line::distanceTo(const Point& pt) const {
