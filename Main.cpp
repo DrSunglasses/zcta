@@ -15,11 +15,19 @@
 #include "memory/GMPMemory.hpp"
 #include "algorithm/HorizontalComparators.hpp"
 #include "algorithm/VerticalComparators.hpp"
+#include "math/Rational.hpp"
 #include "io/Parser.hpp"
 #include "io/Printer.hpp"
 
 int main(int argc, char** argv) {
+	std::cout << "Setting up custom memory allocation... " << std::endl;
 	initGMPMemoryFunctions();
+	std::cout << "Testing the math (sanity check on GMP)... " <<std::endl;
+	test_atan2();
+	testHorizontalPointComparator();
+	testHorizontalLineComparator();
+	testVerticalPointComparator();
+	testVerticalLineComparator();
 	try {
 		boost::unordered_set<ZCTA> zctas;
 		boost::unordered_set<ZCTASegment> segments;
