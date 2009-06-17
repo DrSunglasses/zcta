@@ -81,3 +81,21 @@ Rational pow(const Rational& base, unsigned int exp) {
 	r.canonicalize();
 	return r;
 }
+
+void test_helper(const Rational& y, const Rational& x, double expecting) {
+	std::cout << "Expecting " << expecting << ": " << rational_cast(atan2(y, x)) << std::endl;
+}
+
+void test_helper(const Rational& y, const Rational& x, const Rational& expecting) {
+	test_helper(y, x, rational_cast(expecting));
+}
+
+void test_atan2() {
+	test_helper(0, 1, 0);
+	test_helper(0, -1, pi());
+	test_helper(1, 0, pi()/2);
+	test_helper(-1, 0, -pi()/2);
+	
+	test_helper(8, 5, 1.0122);
+	test_helper(-8, -5, -2.1294);
+}

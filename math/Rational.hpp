@@ -26,5 +26,7 @@ Rational atan2(const Rational& y, const Rational& x);
 Rational pow(const Rational& base, unsigned int exp);
 const Rational& pi();
 
+void test_atan2();
+
 #endif	/* _RATIONAL_H */
 
