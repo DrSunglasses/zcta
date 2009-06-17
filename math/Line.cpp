@@ -7,15 +7,7 @@ Line::Line(const Point& a, const Point& b) { //TODO: convert to initializer-list
 	Rational C = a.y() * dx - a.x() * dy;
 	A = dy / C;
 	B = dx / C;
-	if (vertical())
-		theta_ = pi() / 2;
-	else {
-		theta_ = atan(dy/dx); //returns in [0, 2*pi)
-		if (theta_ < 0)
-			theta_ += pi(); //normalize to [0, pi)
-		if (theta_ >= pi())
-			theta_ -= pi();
-	}
+	theta_ = atan2(dy, dx);
 	bottomSquared = sqrt(rational_cast(A * A + B * B));
 }
 
