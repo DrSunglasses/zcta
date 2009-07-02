@@ -69,12 +69,10 @@ class Algorithm {
 	std::priority_queue<Event<LineComparator>*, std::vector<Event<LineComparator>*>, ReversingComparator<EventComparator, const Event<LineComparator>* const> > eventQueue;
 	SkipList<ZCTALine, LineComparator> sweepLine;
 	boost::unordered_set<SwapEvent<LineComparator> > processedEvents;
-	int totalSegments;
-	int segmentsHandled;
 public:
 	Algorithm(const boost::unordered_set<ZCTASegment>& segments, double tolerance, AdjacencySet* results)
 			:  adjacencies(results), adjacencyTolerance(tolerance), lineCmp(new LineComparator()), eventQueue(),
-			sweepLine(lineCmp), processedEvents(), totalSegments(segments.size()), segmentsHandled(0) {
+			sweepLine(lineCmp), processedEvents() {
 		for (boost::unordered_set<ZCTASegment>::const_iterator i = segments.begin(); i != segments.end(); ++i) {
 			const ZCTASegment& seg = *i;
 			const Point& a = seg.a(), &b = seg.b();
@@ -93,7 +91,6 @@ public:
 					break;
 				case DELETE:
 					remove(evt);
-					++segmentsHandled;
 					break;
 				case SWAP:
 					swap(evt);
@@ -102,8 +99,6 @@ public:
 					throw std::logic_error("Unknown event type: " + boost::lexical_cast<std::string>(evt->type()));
 			}
 			delete evt;
-			if (segmentsHandled % 1000 == 0)
-				std::cout << "Handled " << segmentsHandled << " (" << (segmentsHandled*100)/totalSegments << "%)" << std::endl;
 		}
 	}
 private:
