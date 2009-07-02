@@ -66,13 +66,13 @@ int main(int argc, char** argv) {
 		t1.restart();
 		ha();
 		std::cout << "Computed with horizontal sweep line in " << t1.elapsed() << ": " << hadj.size() << " adjacencies" << std::endl;
-		
+
 		AdjacencySet vadj;
 		VerticalAlgorithm va(segments, ADJACENCY_TOLERANCE, &vadj);
 		t1.restart();
 		va();
 		std::cout << "Computed with vertical sweep line in " << t1.elapsed() << ": " << vadj.size() << " adjacencies" << std::endl;
-		
+
 		t1.restart();
 		vadj.merge(hadj);
 		std::cout << "Merged adjacency sets in " << t1.elapsed() << std::endl;
