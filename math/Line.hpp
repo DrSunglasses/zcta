@@ -19,10 +19,6 @@ private:
 	Rational theta_;
 	double bottomSquared;
 public:
-	//TODO: remove these once LineSegment doesn't need them
-	typedef Point point;
-	typedef Rational reptype;
-
 	Line(const Point& a, const Point& b);
 	bool vertical() const;
 	bool horizontal() const;
