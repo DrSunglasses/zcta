@@ -10,6 +10,9 @@ zcta.exe
 #ignore the data, which should not change and would take up a lot of space in diffs
 data/
 
+#ignore the output
+output/
+
 #ignore NetBeans stuff
 .dep.inc
 zcta-Makefile.mk
