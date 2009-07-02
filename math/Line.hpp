@@ -22,14 +22,10 @@ public:
 	//TODO: remove these once LineSegment doesn't need them
 	typedef Point point;
 	typedef Rational reptype;
-	
+
 	Line(const Point& a, const Point& b);
 	bool vertical() const;
 	bool horizontal() const;
-//	const Rational slope() const {
-//		//TODO: possible candidate for caching or eagerly initializing
-//		return A/B;
-//	}
 	Point intersectionWith(const Line& other) const;
 	bool parallelTo(const Line& other) const;
 	double distanceTo(const Point& pt) const;
