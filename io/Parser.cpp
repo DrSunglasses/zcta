@@ -90,12 +90,11 @@ void parseOutlineFile(const std::string& filename, std::map<int, OutlineData>* r
 		if (munch.find("-99999") == std::string::npos) { //a new one
 			if (first)
 				first = false;
-			else {
-				retval->insert(std::make_pair(number, data));
-				number++;
-				data.interiorPoint = pointFromString(munch);
-				data.segments.clear();
-			}
+			else
+				retval->insert(std::make_pair(number++, data));
+
+			data.interiorPoint = pointFromString(munch);
+			data.segments.clear();
 		}
 		collectSegments(&in, &data.segments);
 	}
