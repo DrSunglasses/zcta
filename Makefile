@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -O2 -ggdb -std=c++0x 
+CXXFLAGS = -O2 -ggdb -std=c++0x -DREMOVE_HH_ZCTAS
 LDFLAGS = -lboost_regex -lgmp -lgmpxx -ggdb
 
 SOURCES := $(wildcard *.cpp algorithm/*.cpp io/*.cpp math/*.cpp memory/*.cpp)
