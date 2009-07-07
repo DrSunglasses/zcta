@@ -21,8 +21,18 @@
 
 #define ADJACENCY_TOLERANCE 0.0001
 #define REMOVE_HH_ZCTAS 1
+#define EXPECTED_ARGC 4
+#define NAME_FILE_INDEX 1
+#define DATA_FILE_INDEX 2
+#define OUTPUT_FILE_INDEX 3
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
+	if (argc != EXPECTED_ARGC) {
+		std::cout << "ERROR: Expected " << EXPECTED_ARGC-1 << " arguments, got " << argc-1 << std::endl;
+		std::cout << "Usage is: zcta.exe [name file] [data file] [output file]" << std::endl;
+		return 1;
+	}
+
 	std::cout << "Setting up custom memory allocation... " << std::endl;
 	initGMPMemoryFunctions();
 	std::cout << "Testing the math (sanity check on GMP)... " <<std::endl;
@@ -35,7 +45,8 @@ int main(int argc, char** argv) {
 		boost::unordered_set<ZCTA> zctas;
 		boost::unordered_set<ZCTASegment> segments;
 		boost::timer t1;
-		assembleZCTAs("data/zt44_d00a.dat", "data/zt44_d00.dat", &zctas, &segments);
+		std::cout << "Reading names from " << argv[NAME_FILE_INDEX] << " and data from " << argv[DATA_FILE_INDEX] << std::endl;
+		assembleZCTAs(argv[NAME_FILE_INDEX], argv[DATA_FILE_INDEX], &zctas, &segments);
 		std::cout << "Parsed in " << t1.elapsed() << std::endl;
 		std::cout << zctas.size() << " ZCTAs with " << segments.size() << " segments" << std::endl;
 
@@ -78,6 +89,9 @@ int main(int argc, char** argv) {
 		std::cout << "Merged adjacency sets in " << t1.elapsed() << std::endl;
 
 		std::cout << "Total adjacencies: " << vadj.size() << std::endl;
+
+		std::cout << "Writing output to " << argv[OUTPUT_FILE_INDEX] << std::endl;
+		print(argv[OUTPUT_FILE_INDEX], zctas, vadj);
 	} catch(std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}
