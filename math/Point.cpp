@@ -17,7 +17,11 @@ std::size_t hash_value(const Point& pt) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Point& pt) {
-	return out << "[" << pt.x() << ", " << pt.y() << "]";
+	return out << pt.x() << " " << pt.y();
+}
+
+std::istream& operator>>(std::istream& in, Point& pt) {
+	return in >> pt.x_ >> pt.y_;
 }
 
 bool operator==(const Point& a, const Point& b) {

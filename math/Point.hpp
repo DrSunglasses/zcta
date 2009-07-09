@@ -33,9 +33,12 @@ public:
 		return y_;
 	}
 	double distanceTo(const Point& pt) const;
+	
+	friend std::istream& operator>>(std::istream& in, Point& pt);
 };
 
 std::ostream& operator<<(std::ostream& out, const Point& pt);
+//operator>> provided as friend
 
 bool operator==(const Point& a, const Point& b);
 
