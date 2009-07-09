@@ -14,15 +14,21 @@
 class ZCTASegment : public LineSegment {
 	ZCTA zcta_;
 public:
+	ZCTASegment(); //to be InputStreamable
 	ZCTASegment(const LineSegment& seg, const ZCTA& z);
 	const ZCTA& zcta() const {
 		return zcta_;
 	}
+	
+	friend std::istream& operator>>(std::istream& in, ZCTASegment& seg);
 };
 
 bool operator==(const ZCTASegment& l, const ZCTASegment& r);
 bool operator!=(const ZCTASegment& l, const ZCTASegment& r);
 bool operator<(const ZCTASegment& l, const ZCTASegment& r);
+
+std::ostream& operator<<(std::ostream& out, const ZCTASegment& seg);
+//operator>> declared as friend above
 
 std::size_t hash_value(const ZCTASegment& z);
 
