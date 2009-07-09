@@ -1,12 +1,24 @@
 CXX = g++
 CXXFLAGS = -O2 -ggdb -DREMOVE_HH_ZCTAS
-LDFLAGS = -lboost_regex -lgmp -lgmpxx -ggdb
+LDFLAGS = -lgmp -lgmpxx -ggdb
 
-SOURCES := $(wildcard *.cpp algorithm/*.cpp io/*.cpp math/*.cpp memory/*.cpp)
-OBJECTS = $(SOURCES:.cpp=.o)
+SHAREDSRC := $(wildcard algorithm/*.cpp math/*.cpp memory/*.cpp)
+MAINSRC := Main.cpp io/Printer.cpp
+TRANSLATESRC := Translate.cpp io/Parser.cpp
+SOURCES := $(SHAREDSRC) $(MAINSRC) $(TRANSLATESRC)
 
-zcta.exe: $(OBJECTS)
-		$(CXX) $(OBJECTS) $(LDFLAGS) -o zcta.exe
+SHAREDOBJ = $(SHAREDSRC:.cpp=.o)
+MAINOBJ = $(MAINSRC:.cpp=.o)
+TRANSLATEOBJ = $(TRANSLATESRC:.cpp=.o)
+OBJECTS := $(SHAREDOBJ) $(MAINOBJ) $(TRANSLATEOBJ)
+
+all: zcta.exe translate.exe
+
+zcta.exe: $(SHAREDOBJ) $(MAINOBJ)
+		$(CXX) $(SHAREDOBJ) $(MAINOBJ) $(LDFLAGS) -o zcta.exe
+		
+translate.exe: $(SHAREDOBJ) $(TRANSLATEOBJ)
+		$(CXX) $(SHAREDOBJ) $(TRANSLATEOBJ) $(LDFLAGS) -lboost_regex -o translate.exe
 
 %.d: %.cpp
 		@set -e; rm -f $@; \
@@ -19,4 +31,4 @@ include $(SOURCES:.cpp=.d)
 .PHONY: clean
 
 clean:
-		rm -f $(OBJECTS) $(SOURCES:.cpp=.d) zcta.exe
+		rm -f $(OBJECTS) $(SOURCES:.cpp=.d) zcta.exe translate.exe
