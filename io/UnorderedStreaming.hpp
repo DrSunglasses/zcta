@@ -8,7 +8,7 @@
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const boost::unordered_set<T>& set) {
 	out << set.size();
-	for (boost::unordered_set<T>::const_iterator i = set.cbegin(); i != set.cend(); ++i)
+	for (typename boost::unordered_set<T>::const_iterator i = set.cbegin(); i != set.cend(); ++i)
 		out << " " << *i;
 	return out;
 }
