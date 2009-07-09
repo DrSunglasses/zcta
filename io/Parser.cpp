@@ -66,13 +66,13 @@ void collectSegments(std::istream* input, std::vector<LineSegment>* retval) {
 	while (getline(*input, foo) && foo.find("END") == std::string::npos)
 		pts.push_back(pointFromString(foo));
 	if (pts.front() != pts.back()) {
-		std::cout << "Adding terminal point" << std::endl;
+		std::cout << "WARNING: Adding terminal point" << std::endl;
 		pts.push_back(pts.front());
 	}
 	for (int i = 0, maxIter = pts.size()-1; i < maxIter; i++) {
 		if (pts[i] == pts[i+1]) {
 			//TODO: check if this is accurate
-//			std::cout << "Skipping zero-length segment: " << pts[i] << " " << pts[i+1] << std::endl;
+			std::cout << "WARNING: Skipping zero-length segment: " << pts[i] << " " << pts[i+1] << std::endl;
 			continue;
 		}
 		retval->push_back(LineSegment(pts[i], pts[i+1]));
