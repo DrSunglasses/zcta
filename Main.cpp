@@ -16,20 +16,19 @@
 #include "algorithm/HorizontalComparators.hpp"
 #include "algorithm/VerticalComparators.hpp"
 #include "math/Rational.hpp"
-#include "io/Parser.hpp"
 #include "io/Printer.hpp"
+#include "io/UnorderedStreaming.hpp"
 
 #define ADJACENCY_TOLERANCE 0.0001
 #define REMOVE_HH_ZCTAS 1
-#define EXPECTED_ARGC 4
-#define NAME_FILE_INDEX 1
-#define DATA_FILE_INDEX 2
-#define OUTPUT_FILE_INDEX 3
+#define EXPECTED_ARGC 3
+#define DATA_FILE_INDEX 1
+#define OUTPUT_FILE_INDEX 2
 
 int main(int argc, char* argv[]) {
 	if (argc != EXPECTED_ARGC) {
 		std::cout << "ERROR: Expected " << EXPECTED_ARGC-1 << " arguments, got " << argc-1 << std::endl;
-		std::cout << "Usage is: zcta.exe [name file] [data file] [output file]" << std::endl;
+		std::cout << "Usage is: zcta.exe [processed data file] [output file]" << std::endl;
 		return 1;
 	}
 
@@ -45,9 +44,12 @@ int main(int argc, char* argv[]) {
 		boost::unordered_set<ZCTA> zctas;
 		boost::unordered_set<ZCTASegment> segments;
 		boost::timer t1;
-		std::cout << "Reading names from " << argv[NAME_FILE_INDEX] << " and data from " << argv[DATA_FILE_INDEX] << std::endl;
-		assembleZCTAs(argv[NAME_FILE_INDEX], argv[DATA_FILE_INDEX], &zctas, &segments);
-		std::cout << "Parsed in " << t1.elapsed() << std::endl;
+		std::cout << "Reading data from " << argv[DATA_FILE_INDEX] << std::endl;
+		{
+			std::ifstream data(argv[DATA_FILE_INDEX]);
+			data >> zctas >> segments;
+		}
+		std::cout << "Loaded data in " << t1.elapsed() << std::endl;
 		std::cout << zctas.size() << " ZCTAs with " << segments.size() << " segments" << std::endl;
 
 #ifdef REMOVE_HH_ZCTAS
