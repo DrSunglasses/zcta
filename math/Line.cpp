@@ -2,6 +2,10 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/functional/hash.hpp>
 
+Line::Line() : A(), B(), theta_() {
+	//necessary to be InputStreamable, not for general use
+}
+
 Line::Line(const Point& a, const Point& b) { //TODO: convert to initializer-list?
 	Rational dx = a.x() - b.x(), dy = a.y() - b.y();
 	Rational C = a.y() * dx - a.x() * dy;
@@ -72,5 +76,12 @@ bool operator!=(const Line& l, const Line& r) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Line& pt) {
-	return out << "[" << pt.A << ", " << pt.B << ", " << pt.theta() << "]";
+	return out << pt.A << " " << pt.B;
+}
+
+std::istream& operator>>(std::istream& in, Line& pt) {
+	in >> pt.A >> pt.B;
+	pt.theta_ = atan2(pt.A, pt.B);
+	pt.bottomSquared = sqrt(rational_cast(pt.A*pt.A + pt.B*pt.B));
+	return in;
 }

@@ -19,6 +19,7 @@ private:
 	Rational theta_;
 	double bottomSquared;
 public:
+	Line(); //necessary to usefully be InputStreamable
 	Line(const Point& a, const Point& b);
 	bool vertical() const;
 	bool horizontal() const;
@@ -29,6 +30,7 @@ public:
 
 	friend bool operator==(const Line& l, const Line& r);
 	friend std::ostream& operator<<(std::ostream& out, const Line& pt);
+	friend std::istream& operator>>(std::istream& in, Line& pt);
 	friend std::size_t hash_value(const Line& pt);
 };
 
