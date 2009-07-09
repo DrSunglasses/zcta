@@ -4,6 +4,10 @@
 #include <stdexcept>
 #include <boost/functional/hash.hpp>
 
+LineSegment::LineSegment() : a_(), b_(), line_() {
+	//necessary to be InputStreamable, not for general use
+}
+
 LineSegment::LineSegment(const Point& pt1, const Point& pt2) : a_(pt1 < pt2 ? pt1 : pt2), b_(pt1 < pt2 ? pt2 : pt1), line_(a_, b_) {
 	if (a_ == b_)
 		throw std::logic_error("zero-length segment");
@@ -42,4 +46,14 @@ std::size_t hash_value(const LineSegment& seg) {
 	boost::hash_combine(seed, seg.a());
 	boost::hash_combine(seed, seg.b());
 	return seed;
+}
+
+std::ostream& operator<<(std::ostream& out, const LineSegment& seg) {
+	return out << seg.a() << " " << seg.b();
+}
+
+std::istream& operator>>(std::istream& in, LineSegment& seg) {
+	in >> seg.a_ >> seg.b_;
+	seg.line_ = Line(seg.a_, seg.b_);
+	return in;
 }

@@ -16,6 +16,7 @@ private:
 	Point a_, b_;
 	Line line_;
 public:
+	LineSegment(); //necessary to be InputStreamable
 	LineSegment(const Point& pt1, const Point& pt2);
 
 	const Line& line() const {
@@ -28,11 +29,16 @@ public:
 		return b_;
 	}
 	double distanceTo(const LineSegment& other) const;
+
+	friend std::istream& operator>>(std::istream& in, LineSegment& seg);
 };
 
 bool operator==(const LineSegment& l, const LineSegment& r);
 bool operator!=(const LineSegment& l, const LineSegment& r);
 bool operator<(const LineSegment& l, const LineSegment& r);
+
+std::ostream& operator<<(std::ostream& out, const LineSegment& seg);
+//operator>> declared as a friend above
 
 std::size_t hash_value(const LineSegment& seg);
 
