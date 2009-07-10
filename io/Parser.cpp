@@ -71,8 +71,8 @@ void collectSegments(std::istream* input, std::vector<LineSegment>* retval) {
 	}
 	for (int i = 0, maxIter = pts.size()-1; i < maxIter; i++) {
 		if (pts[i] == pts[i+1]) {
-			//TODO: check if this is accurate
-			std::cout << "WARNING: Skipping zero-length segment: " << pts[i] << " " << pts[i+1] << std::endl;
+			//this happens waaaay too often to justify warning about
+//			std::cout << "WARNING: Skipping zero-length segment: " << pts[i] << " " << pts[i+1] << std::endl;
 			continue;
 		}
 		retval->push_back(LineSegment(pts[i], pts[i+1]));
