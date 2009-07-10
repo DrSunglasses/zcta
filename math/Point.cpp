@@ -29,5 +29,5 @@ bool operator==(const Point& a, const Point& b) {
 }
 
 bool operator<(const Point& a, const Point& b) {
-	return a.x() < b.x() && a.y() < b.y();
+	return a.y() < b.y() || (a.y() == b.y() && a.x() < b.x());
 }
