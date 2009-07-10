@@ -20,7 +20,9 @@
 #include "io/UnorderedMapStreaming.hpp"
 #include "io/VectorStreaming.hpp"
 
-#define ADJACENCY_TOLERANCE 0.0001
+//units for tolerance are (degrees * 10^15)
+//1 degree ~= 111 km, so .01 degrees (1e-17) is about 1 km
+#define ADJACENCY_TOLERANCE 1e-17
 #define REMOVE_HH_ZCTAS 1
 #define EXPECTED_ARGC 3
 #define DATA_FILE_INDEX 1
