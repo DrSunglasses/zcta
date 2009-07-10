@@ -1,5 +1,5 @@
-#ifndef UNORDEREDSTREAMING_HPP
-#define UNORDEREDSTREAMING_HPP
+#ifndef UNORDEREDSETSTREAMING_HPP
+#define UNORDEREDSETSTREAMING_HPP
 
 //implement stream operators for boost::unordered_set<T>
 #include <boost/unordered_set.hpp>
@@ -26,4 +26,4 @@ std::istream& operator>>(std::istream& in, boost::unordered_set<T>& set) {
 	return in;
 }
 
-#endif //UNORDEREDSTREAMING_HPP
+#endif //UNORDEREDSETSTREAMING_HPP
