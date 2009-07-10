@@ -17,7 +17,8 @@
 #include "algorithm/VerticalComparators.hpp"
 #include "math/Rational.hpp"
 #include "io/Printer.hpp"
-#include "io/UnorderedStreaming.hpp"
+#include "io/UnorderedMapStreaming.hpp"
+#include "io/VectorStreaming.hpp"
 
 #define ADJACENCY_TOLERANCE 0.0001
 #define REMOVE_HH_ZCTAS 1
@@ -44,10 +45,18 @@ int main(int argc, char* argv[]) {
 		boost::unordered_set<ZCTA> zctas;
 		boost::unordered_set<ZCTASegment> segments;
 		boost::timer t1;
-		std::cout << "Reading data from " << argv[DATA_FILE_INDEX] << std::endl;
+		std::cout << "Reading and reconstituting data from " << argv[DATA_FILE_INDEX] << std::endl;
 		{
 			std::ifstream data(argv[DATA_FILE_INDEX]);
-			data >> zctas >> segments;
+			boost::unordered_map<ZCTA, std::vector<LineSegment> > blob;
+			data >> blob;
+			std::cout << blob.size() << std::endl;
+			for (boost::unordered_map<ZCTA, std::vector<LineSegment> >::const_iterator i = blob.cbegin(); i != blob.cend(); ++i) {
+				zctas.insert(i->first);
+				const std::vector<LineSegment>& vec = i->second;
+				for (int j = 0; j < vec.size(); j++)
+					segments.insert(ZCTASegment(vec[j], i->first));
+			}
 		}
 		std::cout << "Loaded data in " << t1.elapsed() << std::endl;
 		std::cout << zctas.size() << " ZCTAs with " << segments.size() << " segments" << std::endl;
