@@ -50,7 +50,6 @@ int main(int argc, char* argv[]) {
 			std::ifstream data(argv[DATA_FILE_INDEX]);
 			boost::unordered_map<ZCTA, std::vector<LineSegment> > blob;
 			data >> blob;
-			std::cout << blob.size() << std::endl;
 			for (boost::unordered_map<ZCTA, std::vector<LineSegment> >::const_iterator i = blob.cbegin(); i != blob.cend(); ++i) {
 				zctas.insert(i->first);
 				const std::vector<LineSegment>& vec = i->second;
