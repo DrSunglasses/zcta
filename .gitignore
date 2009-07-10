@@ -4,8 +4,9 @@
 *.a
 *.d
 
-#and the build result
+#and the build results
 zcta.exe
+translate.exe
 
 #ignore the data, which should not change and would take up a lot of space in diffs
 data/
