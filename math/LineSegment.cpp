@@ -14,7 +14,8 @@ LineSegment::LineSegment(const Point& pt1, const Point& pt2) : a_(pt1 < pt2 ? pt
 }
 
 double LineSegment::distanceTo(const LineSegment& other) const {
-	std::vector<double> vec(8);
+	std::vector<double> vec;
+	vec.reserve(8);
 	//line-endpt distances
 	vec.push_back(line().distanceTo(other.a()));
 	vec.push_back(line().distanceTo(other.b()));
