@@ -105,15 +105,7 @@ private:
 	void add(Event<LineComparator>* parameter) {
 		AddEvent<LineComparator>* evt = throwing_dynamic_cast<AddEvent<LineComparator> >(parameter);
 		const ZCTASegment& seg = evt->segment();
-		if (lineCmp->parallelToSweepLine(seg)) {
-			const ZCTA& us = seg.zcta();
-			for (Position p = sweepLine.begin(); p != sweepLine.end(); ++p)
-				for (ZCTALine::iterator a = p->begin(); a != p->end(); ++a) {
-					const ZCTA& them = a->zcta();
-					if (us != them && !adjacencies->areAdjacent(us, them) && seg.distanceTo(*a) < adjacencyTolerance)
-						adjacencies->addAdjacency(us, them);
-				}
-		} else {
+		if (!lineCmp->parallelToSweepLine(seg)) {
 			const Line& line = seg.line();
 			ZCTALine zLine(line);
 			Position pos = sweepLine.find(zLine);
